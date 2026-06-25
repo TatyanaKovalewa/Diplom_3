@@ -64,6 +64,7 @@ public class HomePage extends BasePage {
 
     public String getActiveTabName() {
         try {
+            Thread.sleep(500);
             WebElement active = wait.until(ExpectedConditions.visibilityOfElementLocated(activeTab));
             return active.getText();
         } catch (Exception e) {

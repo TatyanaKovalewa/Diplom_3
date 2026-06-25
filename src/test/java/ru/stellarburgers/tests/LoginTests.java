@@ -6,7 +6,6 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.Before;
 import org.junit.Test;
 
 @Epic("Тестирование Stellar Burgers")
@@ -14,15 +13,7 @@ import org.junit.Test;
 @Story("Вход в систему")
 public class LoginTests extends BaseTest {
 
-    @Before
-    public void createTestUser() {
-        registerSteps
-                .openRegisterPage()
-                .registerUser(testUserName, testUserEmail, testUserPassword)
-                .verifyOnRegisterPage();
-        loginSteps
-                .verifyOnLoginPage();
-    }
+    // Пользователь будет создан через API
 
     @Test
     @DisplayName("Вход через кнопку 'Войти в аккаунт' на главной")

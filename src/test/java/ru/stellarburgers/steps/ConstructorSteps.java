@@ -3,6 +3,7 @@ package ru.stellarburgers.steps;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import ru.stellarburgers.pages.HomePage;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
@@ -31,13 +32,6 @@ public class ConstructorSteps {
         String actualTab = homePage.getActiveTabName();
         assertEquals("Активным должен быть таб '" + expectedTab + "'",
                 expectedTab, actualTab);
-        return this;
-    }
-
-    @Step("Проверить, что таб 'Булки' активен по умолчанию")
-    public ConstructorSteps verifyDefaultTab() {
-        String activeTab = homePage.getActiveTabName();
-        assertEquals("По умолчанию активен таб 'Булки'", "Булки", activeTab);
         return this;
     }
 

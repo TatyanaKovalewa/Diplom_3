@@ -6,11 +6,13 @@ import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import ru.stellarburgers.api.UserApiClient;
 import ru.stellarburgers.steps.*;
+import ru.stellarburgers.utils.TestDataGenerator;
 
 import java.time.Duration;
 
-public class BaseTest {
+public abstract class BaseTest {
 
     protected WebDriver driver;
 
@@ -21,11 +23,14 @@ public class BaseTest {
     protected ConstructorSteps constructorSteps;
     protected ForgotPasswordSteps forgotPasswordSteps;
 
+    // API Client
+    protected UserApiClient userApiClient;
+
     // Test data
     protected String testUserName;
     protected String testUserEmail;
-    protected String testUserPassword = "Test123456";
-    protected String invalidPassword = "12345";
+    protected String testUserPassword;
+    protected String invalidPassword;
 
     @Before
     public void setUp() {
@@ -38,9 +43,14 @@ public class BaseTest {
             initChromeDriver();
         }
 
+        // Инициализация API клиента
+        userApiClient = new UserApiClient();
+
         // Генерируем уникальные данные для каждого теста
-        testUserName = "Тестовый Пользователь_" + System.currentTimeMillis() % 10000;
-        testUserEmail = "test_" + System.currentTimeMillis() + "@test.com";
+        testUserName = TestDataGenerator.generateRandomName();
+        testUserEmail = TestDataGenerator.generateRandomEmail();
+        testUserPassword = TestDataGenerator.generateValidPassword();
+        invalidPassword = TestDataGenerator.generateInvalidPassword();
 
         // Инициализация Steps
         homeSteps = new HomeSteps(driver);
@@ -48,10 +58,25 @@ public class BaseTest {
         registerSteps = new RegisterSteps(driver);
         constructorSteps = new ConstructorSteps(driver);
         forgotPasswordSteps = new ForgotPasswordSteps(driver);
+
+        // Создаем тестового пользователя через API, только если нужно
+        if (shouldCreateUser()) {
+            userApiClient.createUser(testUserEmail, testUserPassword, testUserName);
+        }
+
     }
 
     @After
     public void tearDown() {
+        // Удаляем пользователя, если он был создан
+        if (shouldCreateUser() && userApiClient != null) {
+            // Если токен не установлен, пробуем войти
+            if (userApiClient.getAccessToken() == null) {
+                userApiClient.loginUser(testUserEmail, testUserPassword);
+            }
+            userApiClient.deleteUser();
+        }
+
         if (driver != null) {
             driver.quit();
         }
@@ -70,6 +95,16 @@ public class BaseTest {
         ChromeOptions options = new ChromeOptions();
         options.setBinary("C:\\Users\\tanja\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
         options.addArguments("--window-size=1920,1080");
+        options.addArguments("--disable-blink-features=AutomationControlled");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--remote-allow-origins=*");
+
+        // Отключаем безопасность для Яндекса
+        options.addArguments("--disable-web-security");
+        options.addArguments("--disable-features=VizDisplayCompositor");
+
         driver = new ChromeDriver(options);
         configureDriver();
     }
@@ -80,4 +115,7 @@ public class BaseTest {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
     }
 
+    protected boolean shouldCreateUser(){
+        return true; // По умолчанию создаем пользователя
+    }
 }

@@ -12,6 +12,11 @@ import org.junit.Test;
 @Story("Переключение между разделами")
 public class ConstructorTests extends BaseTest {
 
+    @Override
+    protected boolean shouldCreateUser() {
+        return false; // Не создаем пользователя через API для тестов конструктора
+    }
+
     @Test
     @DisplayName("Переход к разделу 'Булки' в конструкторе")
     @Description("Проверка активации таба 'Булки' при клике")
