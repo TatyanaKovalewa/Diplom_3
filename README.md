@@ -15,6 +15,7 @@
 - **Step-классы**: бизнес-логика тестов (`HomeSteps`, `LoginSteps` и др.)
 - **Тесты**: JUnit-тесты с Allure-аннотациями
 - **Утилиты**: генерация тестовых данных
+- **Модели данных**: DTO-объекты с использованием **Lombok** для сокращения шаблонного кода
 
 ## 🛠 Технологии
 
@@ -23,23 +24,46 @@
 | Java | 11 | Язык программирования |
 | JUnit | 4.13.2 | Фреймворк для тестирования |
 | Selenium WebDriver | 4.15.0 | Автоматизация браузера |
-| Rest Assured | 5.3.1 | API-тестирование |
-| Allure | 2.24.0 | Отчетность по тестам |
+| Rest Assured | 5.3.0 | API-тестирование |
+| Allure | 2.15.0 | Отчетность по тестам |
 | Maven | 3.9.0 | Сборка проекта |
 | WebDriverManager | 5.6.2 | Управление драйверами браузеров |
+| Lombok | 1.18.30 | Генерация кода (геттеры, сеттеры, конструкторы, билдеры) |
+| Jackson | (встроен в Rest Assured) | Сериализация/десериализация JSON |
 
-## 🔧 Настройка окружения
+### Сериализация моделей
+Для работы с API используются DTO-модели с аннотациями Lombok:
+- `@Data` - генерирует геттеры, сеттеры, `toString()`, `equals()` и `hashCode()`
+- `@Builder` - паттерн Builder для удобного создания объектов
+- `@NoArgsConstructor` / `@AllArgsConstructor` - конструкторы для Jackson
+- `@JsonInclude(JsonInclude.Include.NON_NULL)` - исключает null-поля из JSON
 
-### Требования
-- Установленная Java 11 или выше
-- Установленный Maven 3.9.0+
-- Браузер Chrome или Яндекс.Браузер
-
-### Настройка браузера
-По умолчанию тесты запускаются в **Chrome**. Для использования **Яндекс.Браузера**:
-
-1. Укажите путь к исполняемому файлу Яндекс.Браузера в `BaseTest.initYandexDriver()`:
+Пример модели:
 ```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserModel {
+    private String email;
+    private String password;
+    private String name;
+}
+🔧 Настройка окружения
+Требования
+Установленная Java 11 или выше
+
+Установленный Maven 3.9.0+
+
+Браузер Chrome или Яндекс.Браузер
+
+Настройка браузера
+По умолчанию тесты запускаются в Chrome. Для использования Яндекс.Браузера:
+
+Укажите путь к исполняемому файлу Яндекс.Браузера в BaseTest.initYandexDriver():
+
+java
 options.setBinary("C:\\Users\\tanja\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
 Укажите путь к драйверу Chrome для Яндекс.Браузера:
 
@@ -78,6 +102,8 @@ text
 ru.stellarburgers/
 ├── api/              # API-клиенты
 │   └── UserApiClient.java
+├── models/           # DTO-модели данных (с Lombok)
+│   └── UserModel.java
 ├── pages/            # Page Object модели
 │   ├── BasePage.java
 │   ├── HomePage.java
@@ -124,4 +150,8 @@ API-тесты используют реальную БД, поэтому пос
 
 Все тесты используют паттерн Page Object Model для повышения поддерживаемости
 
+Для сериализации/десериализации JSON используются аннотации Jackson и Lombok
+
 Отчеты для разных браузеров сохраняются в отдельные директории для удобства сравнения
+
+Класс UserModel использует @JsonInclude(Include.NON_NULL) для исключения null-полей в JSON-запросах
