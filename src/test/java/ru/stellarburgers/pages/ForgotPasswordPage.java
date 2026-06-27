@@ -1,5 +1,6 @@
 package ru.stellarburgers.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -12,6 +13,7 @@ public class ForgotPasswordPage extends BasePage {
         super(driver);
     }
 
+    @Step("Нажать кнопку 'Войти' на странице восстановления пароля")
     public void clickLoginButton() {
         click(loginButton);
     }

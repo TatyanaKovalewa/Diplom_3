@@ -1,5 +1,6 @@
 package ru.stellarburgers.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,24 +26,29 @@ public class LoginPage extends BasePage {
         }
     }
 
+    @Step("Ввести email: {email}")
     public void enterEmail(String email) {
         sendKeys(emailInput, email);
     }
 
+    @Step("Ввести пароль")
     public void enterPassword(String password) {
         sendKeys(passwordInput, password);
     }
 
+    @Step("Нажать кнопку 'Войти'")
     public void clickLoginButton() {
         click(loginSubmitButton);
     }
 
+    @Step("Выполнить вход: {email}")
     public void login(String email, String password) {
         enterEmail(email);
         enterPassword(password);
         clickLoginButton();
     }
 
+    @Step("Нажать ссылку 'Восстановить пароль'")
     public void clickForgotPasswordLink() {
         click(forgotPasswordLink);
     }

@@ -1,5 +1,6 @@
 package ru.stellarburgers.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,6 +20,7 @@ public class HomePage extends BasePage {
         super(driver);
     }
 
+    @Step("Открыть главную страницу")
     public void openHomePage() {
         open(BASE_URL);
         waitForLoad();
@@ -33,14 +35,17 @@ public class HomePage extends BasePage {
         }
     }
 
+    @Step("Нажать кнопку 'Войти в аккаунт'")
     public void clickLoginButton() {
         click(loginButton);
     }
 
+    @Step("Нажать кнопку 'Личный кабинет'")
     public void clickProfileButton() {
         click(profileButton);
     }
 
+    @Step("Нажать таб 'Булки'")
     public void clickBunsTab() {
         WebElement tab = waitForClickable(bunsTab);
         scrollToElement(tab);
@@ -48,6 +53,7 @@ public class HomePage extends BasePage {
         waitForTabActivation("Булки");
     }
 
+    @Step("Нажать таб 'Соусы'")
     public void clickSaucesTab() {
         WebElement tab = waitForClickable(saucesTab);
         scrollToElement(tab);
@@ -55,6 +61,7 @@ public class HomePage extends BasePage {
         waitForTabActivation("Соусы");
     }
 
+    @Step("Нажать таб 'Начинки'")
     public void clickFillingsTab() {
         WebElement tab = waitForClickable(fillingsTab);
         scrollToElement(tab);
@@ -62,22 +69,17 @@ public class HomePage extends BasePage {
         waitForTabActivation("Начинки");
     }
 
-    public String getActiveTabName() {
+    public boolean isActiveTab(String tabName) {
         try {
-            Thread.sleep(500);
-            WebElement active = wait.until(ExpectedConditions.visibilityOfElementLocated(activeTab));
-            return active.getText();
+            wait.until(ExpectedConditions.textToBe(activeTab, tabName));
+            return true;
         } catch (Exception e) {
-            return null;
+            return false;
         }
     }
 
     private void waitForTabActivation(String tabName) {
-        try {
-            wait.until(ExpectedConditions.textToBe(activeTab, tabName));
-        } catch (Exception e) {
-            // Таб не активировался
-        }
+        wait.until(ExpectedConditions.textToBe(activeTab, tabName));
     }
 
     private void waitForLoad() {

@@ -7,6 +7,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.After;
 import org.junit.Test;
+import ru.stellarburgers.models.UserModel;
 import ru.stellarburgers.utils.TestDataGenerator;
 
 @Epic("Тестирование Stellar Burgers")
@@ -61,7 +62,7 @@ public class RegistrationTests extends BaseTest {
         // Удаляем пользователя, если он был создан через UI
         if (createdUserEmail != null && createdUserPassword != null && !createdUserPassword.equals(invalidPassword)) {
             try {
-                userApiClient.loginUser(createdUserEmail, createdUserPassword);
+                userApiClient.loginUser(new UserModel(createdUserEmail, createdUserPassword, null));
                 userApiClient.deleteUser();
                 System.out.println("Пользователь удален: " + createdUserEmail);
             } catch (Exception e) {

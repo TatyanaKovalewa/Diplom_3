@@ -1,5 +1,6 @@
 package ru.stellarburgers.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +19,7 @@ public class RegisterPage extends BasePage {
         super(driver);
     }
 
+    @Step("Открыть страницу регистрации")
     public void openRegisterPage() {
         open(BASE_URL + "register");
         waitForLoad();
@@ -32,22 +34,27 @@ public class RegisterPage extends BasePage {
         }
     }
 
+    @Step("Ввести имя: {name}")
     public void enterName(String name) {
         sendKeys(nameInput, name);
     }
 
+    @Step("Ввести email: {email}")
     public void enterEmail(String email) {
         sendKeys(emailInput, email);
     }
 
+    @Step("Ввести пароль")
     public void enterPassword(String password) {
         sendKeys(passwordInput, password);
     }
 
+    @Step("Нажать кнопку 'Зарегистрироваться'")
     public void clickRegisterButton() {
         click(registerButton);
     }
 
+    @Step("Зарегистрировать пользователя: {name}")
     public void register(String name, String email, String password) {
         enterName(name);
         enterEmail(email);
@@ -55,6 +62,7 @@ public class RegisterPage extends BasePage {
         clickRegisterButton();
     }
 
+    @Step("Нажать ссылку 'Войти'")
     public void clickLoginLink() {
         click(loginLink);
     }

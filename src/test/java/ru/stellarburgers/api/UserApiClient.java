@@ -1,17 +1,20 @@
 package ru.stellarburgers.api;
 
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-
-import java.util.HashMap;
-import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
+import ru.stellarburgers.models.UserModel;
 
 import static org.apache.hc.core5.http.HttpStatus.SC_OK;
 
 public class UserApiClient {
     private static final String BASE_URL = "https://stellarburgers.education-services.ru/";
     private final RequestSpecification spec;
+    @Setter
+    @Getter
     private String accessToken;
 
     public UserApiClient() {
@@ -20,14 +23,10 @@ public class UserApiClient {
                 .header("Content-Type", "application/json");
     }
 
-    public Response createUser(String email, String password, String name) {
-        Map<String, String> userData = new HashMap<>();
-        userData.put("email", email);
-        userData.put("password", password);
-        userData.put("name", name);
-
+    @Step("Создать пользователя через API")
+    public Response createUser(UserModel user) {
         Response response = spec
-                .body(userData)
+                .body(user)
                 .post("/api/auth/register");
 
         if (response.getStatusCode() == SC_OK) {
@@ -37,6 +36,7 @@ public class UserApiClient {
         return response;
     }
 
+    @Step("Удалить пользователя через API")
     public Response deleteUser() {
         if (accessToken == null || accessToken.isEmpty()) {
             return null;
@@ -47,13 +47,10 @@ public class UserApiClient {
                 .delete("/api/auth/user");
     }
 
-    public Response loginUser(String email, String password) {
-        Map<String, String> credentials = new HashMap<>();
-        credentials.put("email", email);
-        credentials.put("password", password);
-
+    @Step("Войти под пользователем через API")
+    public Response loginUser(UserModel user) {
         Response response = spec
-                .body(credentials)
+                .body(user)
                 .post("/api/auth/login");
 
         if (response.getStatusCode() == SC_OK) {
@@ -61,13 +58,5 @@ public class UserApiClient {
         }
 
         return response;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
     }
 }

@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import ru.stellarburgers.pages.HomePage;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 public class ConstructorSteps {
 
@@ -29,9 +28,8 @@ public class ConstructorSteps {
 
     @Step("Проверить активный таб: {expectedTab}")
     public ConstructorSteps verifyActiveTab(String expectedTab) {
-        String actualTab = homePage.getActiveTabName();
-        assertEquals("Активным должен быть таб '" + expectedTab + "'",
-                expectedTab, actualTab);
+        assertTrue("Активным должен быть таб '" + expectedTab + "'",
+                homePage.isActiveTab(expectedTab));
         return this;
     }
 

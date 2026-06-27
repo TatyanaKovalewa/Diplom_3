@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import ru.stellarburgers.api.UserApiClient;
+import ru.stellarburgers.models.UserModel;
 import ru.stellarburgers.steps.*;
 import ru.stellarburgers.utils.TestDataGenerator;
 
@@ -61,7 +62,7 @@ public abstract class BaseTest {
 
         // Создаем тестового пользователя через API, только если нужно
         if (shouldCreateUser()) {
-            userApiClient.createUser(testUserEmail, testUserPassword, testUserName);
+            userApiClient.createUser(new UserModel(testUserEmail, testUserPassword, testUserName));
         }
 
     }
@@ -72,7 +73,7 @@ public abstract class BaseTest {
         if (shouldCreateUser() && userApiClient != null) {
             // Если токен не установлен, пробуем войти
             if (userApiClient.getAccessToken() == null) {
-                userApiClient.loginUser(testUserEmail, testUserPassword);
+                userApiClient.loginUser(new UserModel(testUserEmail, testUserPassword, null));
             }
             userApiClient.deleteUser();
         }
