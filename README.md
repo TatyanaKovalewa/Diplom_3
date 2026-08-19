@@ -1,6 +1,8 @@
 # Stellar Burgers Test Automation
 
-Проект автоматизации тестирования веб-приложения **Stellar Burgers** - сервиса доставки бургеров. Реализованы UI-тесты на Java с использованием Selenium WebDriver и API-тесты с использованием Rest Assured.
+Проект автоматизации тестирования веб-приложения **Stellar Burgers** - сервиса доставки бургеров. Реализованы UI-тесты на Java с использованием Selenium WebDriver.
+
+---
 
 ## 📋 Описание проекта
 
@@ -16,6 +18,8 @@
 - **Тесты**: JUnit-тесты с Allure-аннотациями
 - **Утилиты**: генерация тестовых данных
 - **Модели данных**: DTO-объекты с использованием **Lombok** для сокращения шаблонного кода
+
+---
 
 ## 🛠 Технологии
 
@@ -38,67 +42,89 @@
 - `@NoArgsConstructor` / `@AllArgsConstructor` - конструкторы для Jackson
 - `@JsonInclude(JsonInclude.Include.NON_NULL)` - исключает null-поля из JSON
 
-Пример модели:
-```java
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserModel {
-    private String email;
-    private String password;
-    private String name;
-}
-🔧 Настройка окружения
-Требования
-Установленная Java 11 или выше
+---
 
-Установленный Maven 3.9.0+
+## 🔧 Настройка окружения
 
-Браузер Chrome или Яндекс.Браузер
+### Требования
 
-Настройка браузера
-По умолчанию тесты запускаются в Chrome. Для использования Яндекс.Браузера:
+- Установленная Java 11 или выше
+- Установленный Maven 3.9.0+
+- Браузер Chrome или Яндекс.Браузер
 
-Укажите путь к исполняемому файлу Яндекс.Браузера в BaseTest.initYandexDriver():
+---
+
+## Настройка браузера
+
+### 1. По умолчанию тесты запускаются в Chrome. 
+
+### 2. Для использования Яндекс.Браузера:
+
+- ✅ Укажите путь к исполняемому файлу Яндекс.Браузера в BaseTest.initYandexDriver():
 
 java
 options.setBinary("C:\\Users\\tanja\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
-Укажите путь к драйверу Chrome для Яндекс.Браузера:
+
+- ✅ Укажите путь к драйверу Chrome для Яндекс.Браузера:
 
 java
 System.setProperty("webdriver.chrome.driver", "C:\\Users\\tanja\\Desktop\\chromedriver-win64\\chromedriver.exe");
-🚀 Запуск тестов
-Запуск тестов в Chrome
-bash
+
+---
+
+## 🚀 Запуск тестов
+
+### Запуск тестов в Chrome
+
+```bash
 mvn test -Dbrowser=chrome -Dallure.results.directory=target/allure-results-chrome
-Запуск тестов в Яндекс.Браузере
-bash
+```
+
+### Запуск тестов в Яндекс.Браузере
+
+```bash
 mvn test -Dbrowser=yandex -Dallure.results.directory=target/allure-results-yandex
-📊 Allure отчетность
-Генерация отчета для Chrome
-bash
+```
+
+---
+
+## 📊 Allure отчетность
+
+### Генерация отчета для Chrome
+
+```bash
 mvn allure:report -Dallure.results.directory=allure-results-chrome -Dallure.report.directory=target/site/chrome-report
-Генерация отчета для Яндекс.Браузера
-bash
+```
+
+### Генерация отчета для Яндекс.Браузера
+
+```bash
 mvn allure:report -Dallure.results.directory=allure-results-yandex -Dallure.report.directory=target/site/yandex-report
-Быстрый просмотр отчета
-bash
+```
+
+### Быстрый просмотр отчета
+
+```bash
 # Для Chrome
 mvn allure:serve -Dallure.results.directory=target/allure-results-chrome
 
 # Для Яндекс.Браузера
 mvn allure:serve -Dallure.results.directory=target/allure-results-yandex
-Структура отчетов
+```
+
+### Структура отчетов
+
 После выполнения команд отчеты будут доступны:
 
-Chrome отчет: target/site/chrome-report/index.html
+- ✅ Chrome отчет: target/site/chrome-report/index.html
 
-Яндекс.Браузер отчет: target/site/yandex-report/index.html
+- ✅ Яндекс.Браузер отчет: target/site/yandex-report/index.html
 
-📁 Структура пакетов
-text
+---
+
+## 📁 Структура пакетов
+
+```
 ru.stellarburgers/
 ├── api/              # API-клиенты
 │   └── UserApiClient.java
@@ -123,35 +149,41 @@ ru.stellarburgers/
 │   └── ConstructorTests.java
 └── utils/            # Вспомогательные классы
     └── TestDataGenerator.java
-🧪 Тестовые сценарии
-Авторизация
-Вход через кнопку "Войти в аккаунт" на главной
+```
+    
+---
 
-Вход через кнопку "Личный кабинет"
+## 🧪 Тестовые сценарии
 
-Вход через кнопку на странице регистрации
+### 1. Авторизация
 
-Вход через кнопку на странице восстановления пароля
+- ✅ Вход через кнопку "Войти в аккаунт" на главной
+- ✅ Вход через кнопку "Личный кабинет"
+- ✅ Вход через кнопку на странице регистрации
+- ✅ Вход через кнопку на странице восстановления пароля
 
-Регистрация
-Успешная регистрация с валидными данными
+### 2. Регистрация
 
-Ошибка при регистрации с паролем менее 6 символов
+- ✅ Успешная регистрация с валидными данными
+- ✅ Ошибка при регистрации с паролем менее 6 символов
 
-Конструктор
-Переключение между разделами "Булки", "Соусы", "Начинки"
+### 3. Конструктор
 
-Последовательное переключение между всеми разделами
+- ✅ Переключение между разделами "Булки", "Соусы", "Начинки"
+- ✅ Последовательное переключение между всеми разделами
 
-📝 Примечания
-API-тесты используют реальную БД, поэтому после каждого теста пользователь удаляется
+---
 
-Уникальные данные генерируются для каждого теста с помощью TestDataGenerator
+## 📝 Примечания
 
-Все тесты используют паттерн Page Object Model для повышения поддерживаемости
+- ✅ API-тесты используют реальную БД, поэтому после каждого теста пользователь удаляется
+- ✅ Уникальные данные генерируются для каждого теста с помощью TestDataGenerator
+- ✅ Все тесты используют паттерн Page Object Model для повышения поддерживаемости
+- ✅ Для сериализации/десериализации JSON используются аннотации Jackson и Lombok
+- ✅ Отчеты для разных браузеров сохраняются в отдельные директории для удобства сравнения
+- ✅ Класс UserModel использует @JsonInclude(Include.NON_NULL) для исключения null-полей в JSON-запросах
+  
+---
 
-Для сериализации/десериализации JSON используются аннотации Jackson и Lombok
-
-Отчеты для разных браузеров сохраняются в отдельные директории для удобства сравнения
-
-Класс UserModel использует @JsonInclude(Include.NON_NULL) для исключения null-полей в JSON-запросах
+## 📄 Лицензия
+Проект создан в образовательных целях в рамках обучения автоматизации тестирования.
