@@ -87,14 +87,33 @@ public abstract class BaseTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--window-size=1920,1080");
+        applyHeadlessIfRequested(options);
         driver = new ChromeDriver(options);
         configureDriver();
     }
 
+    // Включает headless при запуске с -Dheadless=true. Нужно для прогона в CI, где нет дисплея.
+    private void applyHeadlessIfRequested(ChromeOptions options) {
+        if (Boolean.parseBoolean(System.getProperty("headless", "false"))) {
+            options.addArguments("--headless=new");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+        }
+    }
+
     protected void initYandexDriver() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\tanja\\Desktop\\chromedriver-win64\\chromedriver.exe");
+        // Пути задаются снаружи, чтобы проект не был привязан к конкретной машине:
+        // mvn test -Dbrowser=yandex -Dyandex.driver.path=... -Dyandex.browser.path=...
+        String driverPath = System.getProperty("yandex.driver.path");
+        if (driverPath != null && !driverPath.isEmpty()) {
+            System.setProperty("webdriver.chrome.driver", driverPath);
+        }
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("C:\\Users\\tanja\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
+        String browserPath = System.getProperty("yandex.browser.path");
+        if (browserPath != null && !browserPath.isEmpty()) {
+            options.setBinary(browserPath);
+        }
         options.addArguments("--window-size=1920,1080");
         options.addArguments("--disable-blink-features=AutomationControlled");
         options.addArguments("--disable-gpu");

@@ -1,5 +1,16 @@
 # Stellar Burgers Test Automation
 
+[![tests](https://github.com/TatyanaKovalewa/stellar-burgers-test-automation/actions/workflows/tests.yml/badge.svg)](https://github.com/TatyanaKovalewa/stellar-burgers-test-automation/actions/workflows/tests.yml)
+[![Java](https://img.shields.io/badge/Java-11-orange)](https://openjdk.org/projects/jdk/11/)
+[![Selenium](https://img.shields.io/badge/Selenium-WebDriver-43B02A)](https://www.selenium.dev/)
+[![Allure](https://img.shields.io/badge/Allure-report-FF6A00)](https://tatyanakovalewa.github.io/stellar-burgers-test-automation/)
+
+**10 UI-тестов, все проходят.** Прогоняются в CI в headless-Chrome при каждом пуше, Allure-отчёт публикуется автоматически:
+
+**👉 [Открыть Allure-отчёт](https://tatyanakovalewa.github.io/stellar-burgers-test-automation/)**
+
+---
+
 Проект автоматизации тестирования веб-приложения **Stellar Burgers** - сервиса доставки бургеров. Реализованы UI-тесты на Java с использованием Selenium WebDriver.
 
 ---
@@ -80,10 +91,23 @@ System.setProperty("webdriver.chrome.driver", "C:\\Users\\tanja\\Desktop\\chrome
 mvn test -Dbrowser=chrome -Dallure.results.directory=target/allure-results-chrome
 ```
 
-### Запуск тестов в Яндекс.Браузере
+### Запуск без окна браузера (headless)
+
+Нужен для прогона в CI и на машине без графической оболочки:
 
 ```bash
-mvn test -Dbrowser=yandex -Dallure.results.directory=target/allure-results-yandex
+mvn test -Dheadless=true
+```
+
+### Запуск тестов в Яндекс.Браузере
+
+Пути к браузеру и драйверу задаются снаружи — проект не привязан к конкретной машине:
+
+```bash
+mvn test -Dbrowser=yandex \
+  -Dyandex.driver.path="C:\\путь\\к\\chromedriver.exe" \
+  -Dyandex.browser.path="C:\\путь\\к\\browser.exe" \
+  -Dallure.results.directory=target/allure-results-yandex
 ```
 
 ---
