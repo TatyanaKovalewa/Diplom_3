@@ -1,13 +1,13 @@
 # Stellar Burgers Test Automation
 
-[![tests](https://github.com/TatyanaKovalewa/stellar-burgers-test-automation/actions/workflows/tests.yml/badge.svg)](https://github.com/TatyanaKovalewa/stellar-burgers-test-automation/actions/workflows/tests.yml)
+[![tests](https://github.com/TatyanaKovalewa/stellar-burgers-ui-autotests/actions/workflows/tests.yml/badge.svg)](https://github.com/TatyanaKovalewa/stellar-burgers-ui-autotests/actions/workflows/tests.yml)
 [![Java](https://img.shields.io/badge/Java-11-orange)](https://openjdk.org/projects/jdk/11/)
 [![Selenium](https://img.shields.io/badge/Selenium-WebDriver-43B02A)](https://www.selenium.dev/)
-[![Allure](https://img.shields.io/badge/Allure-report-FF6A00)](https://tatyanakovalewa.github.io/stellar-burgers-test-automation/)
+[![Allure](https://img.shields.io/badge/Allure-report-FF6A00)](https://tatyanakovalewa.github.io/stellar-burgers-ui-autotests/)
 
 **10 UI-тестов, все проходят.** Прогоняются в CI в headless-Chrome при каждом пуше, Allure-отчёт публикуется автоматически:
 
-**👉 [Открыть Allure-отчёт](https://tatyanakovalewa.github.io/stellar-burgers-test-automation/)**
+**👉 [Открыть Allure-отчёт](https://tatyanakovalewa.github.io/stellar-burgers-ui-autotests/)**
 
 ---
 
