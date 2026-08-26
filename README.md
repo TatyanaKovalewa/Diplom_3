@@ -9,6 +9,8 @@
 
 **👉 [Открыть Allure-отчёт](https://tatyanakovalewa.github.io/stellar-burgers-ui-autotests/)**
 
+[![Отчёт Allure](./docs/report.png)](https://tatyanakovalewa.github.io/stellar-burgers-ui-autotests/)
+
 ---
 
 Проект автоматизации тестирования веб-приложения **Stellar Burgers** - сервиса доставки бургеров. Реализованы UI-тесты на Java с использованием Selenium WebDriver.
